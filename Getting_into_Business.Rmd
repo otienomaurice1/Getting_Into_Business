@@ -2,7 +2,10 @@
 title: "GETTING INTO REAL ESTATE BUSINESS IN THE US"
 author: "Maurice otieno"
 date: "2025-05-16"
-output: html_document
+output:
+ github_document:
+ pandoc_args: ["--wrap=none"]
+always_allow_html: true
 ---
 
 This project is geared towards extracting and analyzing data on housing prices in the United States, with the aim of guiding individuals interested in real estate investment. An in-depth understanding of property pricing dynamics is essential for making data-driven decisions that lead to profitable investments.
@@ -74,7 +77,7 @@ df <- readr::read_csv(csv_files[1])
 
 - **Country**: The country where the property is located. While this dataset focuses on properties in Australia, this feature is included for completeness.
 
-```{r data_categorization_table, echo=FALSE, message=FALSE, warning=FALSE}
+```{r data_categorization_table, echo=FALSE, message=FALSE, warning=FALSE, fig.path='figures/', fig.align='center'}
 # Install required packages
 if (!require(dplyr)) install.packages("dplyr")
 if (!require(knitr)) install.packages("knitr")
@@ -152,7 +155,7 @@ To prepare the dataset for analysis, we removed records with missing or zero val
 
 # 2. EXPLORATORY DATA ANALYSIS
 
-```{r ratio_summary_tests, echo=FALSE, message=FALSE, warning=FALSE}
+```{r ratio_summary_tests, echo=FALSE, message=FALSE, warning=FALSE, fig.path='figures/', fig.align='center'}
 # Load required libraries
 if (!require(dplyr)) install.packages("dplyr")
 if (!require(knitr)) install.packages("knitr")
@@ -203,7 +206,7 @@ We want to investigate whether larger lot sizes are associated with higher prope
 Since both sqft_lot and price are continuous numeric variables, the most appropriate plot is a scatter plot with a regression line to visualize any linear trend.
 
 
-```{r plot_lot_size_price, echo=FALSE, message=FALSE, warning=FALSE}
+```{r plot_lot_size_price, echo=FALSE, message=FALSE, warning=FALSE, fig.path='figures/', fig.align='center'}
 library(ggplot2)
 library(dplyr)
 
@@ -231,7 +234,7 @@ We also aim to determine whether properties with more bedrooms generally sell fo
 Because bedrooms is a discrete numeric variable and price is continuous, a boxplot is the best choice. This will let us visualize how the distribution of prices changes with the number of bedrooms, and whether there's a clear price premium as bedroom count increases.
 
 
-```{r plot_bedrooms_price, echo=FALSE, message=FALSE, warning=FALSE}
+```{r plot_bedrooms_price,echo=FALSE, message=FALSE, warning=FALSE, fig.path='figures/', fig.align='center'}
 # Filter dataset
 bedroom_df <- df %>%
   filter(price > 0, bedrooms > 0)
@@ -252,7 +255,7 @@ ggplot(bedroom_df, aes(x = as.factor(bedrooms), y = price, fill = as.factor(bedr
 The plot shows that median prices generally increase from 1 to 5 bedrooms, indicating a positive association between bedroom count and property price. However, beyond 5 bedrooms, the trend becomes less consistent. Properties with 6 or more bedrooms do not show significantly higher median prices and tend to have greater variability, likely due to niche market segments or custom-built homes. Overall, 3-bedroom and 4-bedroom homes are the most common, and they occupy the mid-range in both price and spread. This supports the idea that bedroom count influences price, but only up to a practical limit, after which the relationship weakens.
 
 We want to determine whether homes with waterfront views (coded as 1) sell for higher prices compared to those without (0). Since this is a binary categorical variable, a boxplot comparing price distributions between the two groups is ideal.
-```{r plot_waterfront_price, echo=FALSE, message=FALSE, warning=FALSE}
+```{r plot_waterfront_price, echo=FALSE, message=FALSE, warning=FALSE, fig.path='figures/', fig.align='center'}
 # Prepare data
 waterfront_df <- df %>%
   filter(price > 0, !is.na(waterfront)) %>%
@@ -277,7 +280,7 @@ The boxplot reveals a clear price premium for properties with waterfront views. 
 We want to see whether properties in certain cities consistently have higher or lower prices. We'll group cities by their median property price, then: Show the top 10 cities with the highest medians and Show the bottom 10 cities with the lowest medians
 
 
-```{r plot_city_price_facets, echo=FALSE, message=FALSE, warning=FALSE}
+```{r plot_city_price_facets, echo=FALSE, message=FALSE, warning=FALSE, fig.path='figures/', fig.align='center'}
 # Prepare and filter data
 city_df <- df %>%
   filter(price > 0, !is.na(city)) %>%
